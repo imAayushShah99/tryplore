@@ -2,7 +2,7 @@ import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:tryplore/categoriestab.dart';
 import 'package:tryplore/my_home_page.dart';
-import 'package:tryplore/offerstab.dart';
+import 'package:tryplore/notificationtab.dart';
 import 'package:tryplore/profiletab.dart';
 
 class HomeTab extends StatefulWidget {
@@ -16,7 +16,7 @@ class _HomeTabState extends State<HomeTab> {
   List<Widget> page = [
     MyHomePage(),
     CategoriesTab(),
-    OffersTab(),
+    NotificationTab(),
     ProfileTab()
   ];
   int _currentIndex = 0;
@@ -56,8 +56,8 @@ class _HomeTabState extends State<HomeTab> {
           ),
           CustomNavigationBarItem(
             // selectedIcon: OffersTab(),
-            icon: Icon(Icons.lightbulb_outline),
-            title: Text("Offers"),
+            icon: Icon(Icons.notifications),
+            title: Text("Notification"),
           ),
           CustomNavigationBarItem(
             // selectedIcon: ProfileTab(),

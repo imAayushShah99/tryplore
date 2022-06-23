@@ -1,12 +1,15 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fradio_nullsafety/fradio_nullsafety.dart';
+import 'package:tryplore/add_to_cart.dart';
 
 class ProductDetail extends StatefulWidget {
-  const ProductDetail({super.key});
+  String pincode;
+  ProductDetail({super.key, required this.pincode});
 
   @override
   State<ProductDetail> createState() => _ProductDetailState();
@@ -29,6 +32,20 @@ class _ProductDetailState extends State<ProductDetail> {
     'https://tryplore.com/uploads/catalog/products/main_image/DSCF6706.JPG',
     'https://tryplore.com/uploads/catalog/products/main_image/DSCF6707.JPG',
   ];
+  List<ImageProvider> _imageProviders = [
+    Image.network(
+            'https://tryplore.com/uploads/catalog/products/main_image/DSCF6706.JPG')
+        .image,
+    Image.network(
+            'https://tryplore.com/uploads/catalog/products/main_image/DSCF6707.JPG')
+        .image,
+    Image.network(
+            'https://tryplore.com/uploads/catalog/products/main_image/DSCF6706.JPG')
+        .image,
+    Image.network(
+            'https://tryplore.com/uploads/catalog/products/main_image/DSCF6707.JPG')
+        .image,
+  ];
   List<String> images = [
     'https://kwabey.com/images/moon-knight-black-tshirt/360/1700.jpg',
     'https://kwabey.com/images/mood-of-the-day-white-tshirt/360/1695.jpg',
@@ -50,16 +67,60 @@ class _ProductDetailState extends State<ProductDetail> {
           SizedBox(
             width: 25,
           ),
-          Icon(Icons.location_on_outlined),
-          SizedBox(
-            width: 5,
-          ),
-          Align(
-            alignment: Alignment.center,
-            child: Text(
-              '400067',
-              style: TextStyle(fontSize: 16),
-              // textAlign: TextAlign.center,
+          GestureDetector(
+            onTap: () {
+              showDialog(
+                  context: context,
+                  builder: (_) => AlertDialog(
+                        title: Text('Enter Pincode'),
+                        content: TextField(
+                          onChanged: (value) {
+                            widget.pincode = value.toString();
+                          },
+                          // onSubmitted: (value) {
+                          //   print(pincode);
+                          //   setState(() {
+                          //     print(pincode);
+                          //     pincode = value.toString();
+                          //     print(pincode);
+                          //   });
+                          // },
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            hintText: widget.pincode == '0'
+                                ? 'Pincode'
+                                : widget.pincode,
+                          ),
+                        ),
+                        actions: [
+                          TextButton(
+                              style: TextButton.styleFrom(
+                                backgroundColor: Colors.blue,
+                                primary: Colors.white,
+                                minimumSize: Size(350, 45),
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text('Submit'))
+                        ],
+                      ));
+            },
+            child: Row(
+              children: [
+                Icon(Icons.location_on_outlined),
+                SizedBox(
+                  width: 5,
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    widget.pincode == '0' ? 'pincode' : widget.pincode,
+                    style: TextStyle(fontSize: 16),
+                    // textAlign: TextAlign.center,
+                  ),
+                ),
+              ],
             ),
           ),
           SizedBox(
@@ -74,32 +135,39 @@ class _ProductDetailState extends State<ProductDetail> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CarouselSlider(
-                options: CarouselOptions(
-                  viewportFraction: 1,
-                  height: 500.0,
-                  autoPlay: true,
-                  onPageChanged: (index, reason) {
-                    setState(() {
-                      _current = index;
-                    });
-                  },
-                ),
-                items: list.map((item) {
-                  return Builder(
-                    builder: (BuildContext context) {
-                      return Container(
-                        width: MediaQuery.of(context).size.width,
-                        // margin: EdgeInsets.symmetric(horizontal: 5.0),
-                        decoration: BoxDecoration(),
-                        child: Image.network(
-                          '$item',
-                          fit: BoxFit.fill,
-                        ),
-                      );
+              GestureDetector(
+                onTap: () {
+                  MultiImageProvider multiImageProvider =
+                      MultiImageProvider(_imageProviders);
+                  showImageViewerPager(context, multiImageProvider);
+                },
+                child: CarouselSlider(
+                  options: CarouselOptions(
+                    viewportFraction: 1,
+                    height: 500.0,
+                    autoPlay: true,
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        _current = index;
+                      });
                     },
-                  );
-                }).toList(),
+                  ),
+                  items: list.map((item) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return Container(
+                          width: MediaQuery.of(context).size.width,
+                          // margin: EdgeInsets.symmetric(horizontal: 5.0),
+                          decoration: BoxDecoration(),
+                          child: Image.network(
+                            '$item',
+                            fit: BoxFit.fill,
+                          ),
+                        );
+                      },
+                    );
+                  }).toList(),
+                ),
               ),
               SizedBox(
                 height: 10,
@@ -210,7 +278,7 @@ class _ProductDetailState extends State<ProductDetail> {
                             context: context,
                             builder: (_) => AlertDialog(
                                   content: Image.asset(
-                                    'assets/chart2.jpeg',
+                                    'assets/chart.jpeg',
                                     fit: BoxFit.cover,
                                   ),
                                 ));
@@ -218,42 +286,60 @@ class _ProductDetailState extends State<ProductDetail> {
                       icon: Icon(Icons.rule_folder))
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    top: 20, right: 10, left: 10, bottom: 10),
-                child: Container(
-                  // width: 183,
-                  // height: 56,
-                  decoration: BoxDecoration(
-                    color: Colors.blueAccent,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: CupertinoButton(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            FontAwesomeIcons.bagShopping,
-                            color: Colors.white,
-                            size: 20,
-                          ),
-                          AutoSizeText(
-                            "   TRY THIS",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 17.5,
-                                fontWeight: FontWeight.w400),
-                            maxFontSize: 17,
-                            minFontSize: 17,
-                          ),
-                        ],
+              widget.pincode == '12345'
+                  ? Padding(
+                      padding: const EdgeInsets.only(
+                          top: 20, right: 10, left: 10, bottom: 10),
+                      child: Container(
+                        // width: 183,
+                        // height: 56,
+                        decoration: BoxDecoration(
+                          color: Colors.blueAccent,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: CupertinoButton(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 20),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  FontAwesomeIcons.bagShopping,
+                                  color: Colors.white,
+                                  size: 20,
+                                ),
+                                AutoSizeText(
+                                  "   TRY THIS",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 17.5,
+                                      fontWeight: FontWeight.w400),
+                                  maxFontSize: 17,
+                                  minFontSize: 17,
+                                ),
+                              ],
+                            ),
+                            onPressed: () {}),
                       ),
-                      onPressed: () {}),
-                ),
-              ),
+                    )
+                  : Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          height: 80,
+                          color: Colors.red[300],
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              'Sorry, currently we don\'t offer Try service in your pincode. But you can Buy without Try.',
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
               Padding(
                 padding: const EdgeInsets.only(
                     top: 0, right: 10, left: 10, bottom: 10),
@@ -287,7 +373,13 @@ class _ProductDetailState extends State<ProductDetail> {
                           ),
                         ],
                       ),
-                      onPressed: () {}),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AddToCartProcessView()),
+                        );
+                      }),
                 ),
               ),
 

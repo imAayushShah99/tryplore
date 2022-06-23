@@ -14,6 +14,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  String pincode = '0';
   List<Widget> push = [OffersTab(), ProfileTab()];
   int _currentIndex = 0;
   List<String> images = [
@@ -169,17 +170,56 @@ class _MyHomePageState extends State<MyHomePage> {
                     SizedBox(
                       width: 25,
                     ),
-                    Icon(Icons.notifications),
-                    SizedBox(
-                      width: 25,
-                    ),
                     Icon(Icons.favorite),
                     SizedBox(
                       width: 25,
                     ),
-                    Icon(Icons.badge),
+                    Icon(Icons.shopping_cart),
                     SizedBox(
-                      width: 25,
+                      width: 10,
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.location_on_outlined),
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (_) => AlertDialog(
+                                  title: Text('Enter Pincode'),
+                                  content: TextField(
+                                    onChanged: (value) {
+                                      pincode = value.toString();
+                                    },
+                                    // onSubmitted: (value) {
+                                    //   print(pincode);
+                                    //   setState(() {
+                                    //     print(pincode);
+                                    //     pincode = value.toString();
+                                    //     print(pincode);
+                                    //   });
+                                    // },
+                                    keyboardType: TextInputType.number,
+                                    decoration: InputDecoration(
+                                      hintText:
+                                          pincode == '0' ? 'Pincode' : pincode,
+                                    ),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                        style: TextButton.styleFrom(
+                                          backgroundColor: Colors.blue,
+                                          primary: Colors.white,
+                                          minimumSize: Size(350, 45),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text('Submit'))
+                                  ],
+                                ));
+                      },
+                    ),
+                    SizedBox(
+                      width: 10,
                     ),
                   ],
 
@@ -200,11 +240,18 @@ class _MyHomePageState extends State<MyHomePage> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => Mens()),
+                                        builder: (context) => Mens(
+                                              pincode: pincode,
+                                            )),
                                   );
                                 }
                                 if (category[index].name.toString() ==
-                                    'Appliances') {
+                                    'Offers') {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => OffersTab()),
+                                  );
                                   // Navigator.push(
                                   //   context,
                                   //   MaterialPageRoute(
@@ -560,25 +607,45 @@ class _MyHomePageState extends State<MyHomePage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.475,
-                                  height: 220,
-                                  child: Image.network(
-                                    'https://kwabey.com/images/offer-banners/540/1596.jpg',
-                                    fit: BoxFit.cover,
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              Mens(pincode: pincode)),
+                                    );
+                                  },
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.475,
+                                    height: 220,
+                                    child: Image.network(
+                                      'https://kwabey.com/images/offer-banners/540/1596.jpg',
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
                                 SizedBox(
                                   width: 5,
                                 ),
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.475,
-                                  height: 220,
-                                  child: Image.network(
-                                    'https://kwabey.com/images/banners/540/1583.jpg',
-                                    fit: BoxFit.cover,
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              Mens(pincode: pincode)),
+                                    );
+                                  },
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.475,
+                                    height: 220,
+                                    child: Image.network(
+                                      'https://kwabey.com/images/banners/540/1583.jpg',
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 )
                               ],

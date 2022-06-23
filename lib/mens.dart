@@ -7,7 +7,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:tryplore/product_detail.dart';
 
 class Mens extends StatefulWidget {
-  const Mens({Key? key}) : super(key: key);
+  String pincode;
+  Mens({Key? key, required this.pincode}) : super(key: key);
 
   @override
   State<Mens> createState() => _MensState();
@@ -89,17 +90,49 @@ class _MensState extends State<Mens> {
           SizedBox(
             width: 25,
           ),
-          Icon(Icons.notifications),
-          SizedBox(
-            width: 25,
-          ),
           Icon(Icons.favorite),
           SizedBox(
             width: 25,
           ),
-          Icon(Icons.badge),
+          Icon(Icons.shopping_cart),
           SizedBox(
-            width: 25,
+            width: 10,
+          ),
+          IconButton(
+            icon: Icon(Icons.location_on_outlined),
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (_) => AlertDialog(
+                        title: Text('Enter Pincode'),
+                        content: TextField(
+                          onChanged: (value) {
+                            widget.pincode = value.toString();
+                          },
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            hintText: widget.pincode == '0'
+                                ? 'Pincode'
+                                : widget.pincode,
+                          ),
+                        ),
+                        actions: [
+                          TextButton(
+                              style: TextButton.styleFrom(
+                                backgroundColor: Colors.blue,
+                                primary: Colors.white,
+                                minimumSize: Size(350, 45),
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text('Submit'))
+                        ],
+                      ));
+            },
+          ),
+          SizedBox(
+            width: 10,
           ),
         ],
       ),
@@ -255,7 +288,9 @@ class _MensState extends State<Mens> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ProductDetail()),
+                                  builder: (context) => ProductDetail(
+                                        pincode: widget.pincode,
+                                      )),
                             );
                           },
                           child: Container(
@@ -436,7 +471,9 @@ class _MensState extends State<Mens> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ProductDetail()),
+                                  builder: (context) => ProductDetail(
+                                        pincode: widget.pincode,
+                                      )),
                             );
                           },
                           child: Container(
