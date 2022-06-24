@@ -63,7 +63,7 @@ class _ProductDetailState extends State<ProductDetail> {
           SizedBox(
             width: 25,
           ),
-          Icon(Icons.badge),
+          Icon(Icons.shopping_cart),
           SizedBox(
             width: 25,
           ),
@@ -72,7 +72,8 @@ class _ProductDetailState extends State<ProductDetail> {
               showDialog(
                   context: context,
                   builder: (_) => AlertDialog(
-                        title: Text('Enter Pincode'),
+                        title: Text(
+                            'Enter pincode to see Try & Buy stores to order.'),
                         content: TextField(
                           onChanged: (value) {
                             widget.pincode = value.toString();
@@ -102,7 +103,7 @@ class _ProductDetailState extends State<ProductDetail> {
                               onPressed: () {
                                 Navigator.pop(context);
                               },
-                              child: Text('Submit'))
+                              child: Text('Check'))
                         ],
                       ));
             },
@@ -327,14 +328,21 @@ class _ProductDetailState extends State<ProductDetail> {
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: Container(
-                          width: MediaQuery.of(context).size.width * 0.8,
-                          height: 80,
-                          color: Colors.red[300],
+                          decoration: BoxDecoration(
+                            // color: Colors.blueAccent,
+                            color: Colors.red[300],
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          height: 70,
                           child: Align(
                             alignment: Alignment.center,
-                            child: Text(
-                              'Sorry, currently we don\'t offer Try service in your pincode. But you can Buy without Try.',
-                              textAlign: TextAlign.center,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                'Sorry, currently we don\'t offer Try service in your pincode. But you can Buy without Try.',
+                                textAlign: TextAlign.center,
+                              ),
                             ),
                           ),
                         ),
@@ -376,8 +384,7 @@ class _ProductDetailState extends State<ProductDetail> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => AddToCartProcessView()),
+                          MaterialPageRoute(builder: (context) => AddToCart()),
                         );
                       }),
                 ),

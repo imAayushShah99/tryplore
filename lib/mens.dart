@@ -104,11 +104,20 @@ class _MensState extends State<Mens> {
               showDialog(
                   context: context,
                   builder: (_) => AlertDialog(
-                        title: Text('Enter Pincode'),
+                        title: Text(
+                            'Enter pincode to see Try & Buy stores to order.'),
                         content: TextField(
                           onChanged: (value) {
                             widget.pincode = value.toString();
                           },
+                          // onSubmitted: (value) {
+                          //   print(pincode);
+                          //   setState(() {
+                          //     print(pincode);
+                          //     pincode = value.toString();
+                          //     print(pincode);
+                          //   });
+                          // },
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
                             hintText: widget.pincode == '0'
@@ -126,7 +135,7 @@ class _MensState extends State<Mens> {
                               onPressed: () {
                                 Navigator.pop(context);
                               },
-                              child: Text('Submit'))
+                              child: Text('Check'))
                         ],
                       ));
             },

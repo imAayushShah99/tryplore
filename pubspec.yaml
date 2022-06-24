@@ -48,6 +48,7 @@ dependencies:
   fradio_nullsafety: ^2.0.2 
   photo_view: ^0.14.0
   easy_image_viewer: ^1.0.4
+  badges: ^2.0.3
 
 
 dev_dependencies:
