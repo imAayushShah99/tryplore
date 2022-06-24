@@ -12,9 +12,9 @@ class _NotificationTabState extends State<NotificationTab> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Container(
-          child: Text('No Notification'),
-        ),
+        child: SingleChildScrollView(
+            // child: ListView.builder(itemBuilder: itemBuilder),
+            ),
       ),
     );
   }
